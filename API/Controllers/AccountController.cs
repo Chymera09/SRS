@@ -31,6 +31,8 @@ namespace API.Controllers
             var user = new AppUser
             {
                 UserName = registerDto.Username.ToLower(),
+                FirstName = registerDto.Firstname,
+                LastName = registerDto.Lastname
             };
 
             // registerDto.Password bevezetese a jelszohoz
