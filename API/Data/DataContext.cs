@@ -14,6 +14,8 @@ namespace API.Data
         {
         }
 
+         public DbSet<Subject> Subjects { get; set; }
+
         // TODO remove
         // public DbSet<AppUser> Users { get; set; }
 
@@ -33,6 +35,8 @@ namespace API.Data
                 .WithOne(u => u.Role)
                 .HasForeignKey(ur => ur.RoleId)
                 .IsRequired();
+
+            
         }
     }
 }

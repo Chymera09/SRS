@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,6 +26,8 @@ import { PhotoManagementComponent } from './admin/photo-management/photo-managem
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { RolesModalComponent } from './modals/roles-modal/roles-modal.component';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
+import { DateInputComponent } from './_forms/date-input/date-input.component';
+import { TextInputComponent } from './_forms/text-input/text-input.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +46,9 @@ import { JwtInterceptor } from './_interceptors/jwt.interceptor';
     HasRoleDirective,
     UserManagementComponent,
     PhotoManagementComponent,
-    RolesModalComponent
+    RolesModalComponent,
+    DateInputComponent,
+    TextInputComponent
 
   ],
   imports: [
@@ -54,7 +58,8 @@ import { JwtInterceptor } from './_interceptors/jwt.interceptor';
     BrowserAnimationsModule,
     FormsModule,
     SharedModule,
-    TabsModule.forRoot()
+    TabsModule.forRoot(),
+    ReactiveFormsModule
 
   ],
   providers: [
