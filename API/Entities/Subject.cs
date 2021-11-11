@@ -10,7 +10,7 @@ namespace API.Entities
         public int Id { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
-        public AppUser Lecturer { get; set; }
+        public AppUser AppUser { get; set; }
         public ICollection<Course> Courses { get; set; }
     }
 }

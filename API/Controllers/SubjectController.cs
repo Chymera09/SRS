@@ -45,11 +45,17 @@ namespace API.Controllers
                 return BadRequest("Subject already exists");
             }
 
+            var user = await _userRepository.GetUserByUsernameAsync(username);
+            if(user == null)
+            {
+                return BadRequest("User cannot find");
+            }
+
             var subject = new Subject
             {
                 Name = subjectDto.Name,
                 Code = subjectDto.Code,
-                Lecturer = await _userRepository.GetUserByUsernameAsync("lisa")
+                AppUser = user // await _userRepository.GetUserByUsernameAsync(username)
             };
 
             _subjectRepository.Add(subject);
@@ -57,7 +63,7 @@ namespace API.Controllers
             var result = await _context.SaveChangesAsync();
             if(result == 0)
             {
-                return BadRequest("Something wen wrong");
+                return BadRequest("Something wen wrongggg");
             }
             return Ok();
         }

@@ -26,12 +26,12 @@ namespace API.Data
 
         public async Task<bool> SubjectExists(string code)
         {
-            return await _context.Subjects.AnyAsync(x => x.Code == code.ToLower());
+            return await _context.Subjects.AnyAsync(x => x.Code.ToLower() == code.ToLower());
         }
 
-        public async void Add(Subject subject)
+        public void Add(Subject subject)
         {
-            _context.Subjects.Add(subject);
+            _context.Subjects.AddAsync(subject);
         }
     }
 }

@@ -11,6 +11,6 @@ namespace API.DTOs
         public int Id { get; set; }
         public string Name { get; set; }
         public string Code { get; set; }
-        AppUser Lecturer { get; set; }
+        AppUser AppUser { get; set; }
     }
 }
