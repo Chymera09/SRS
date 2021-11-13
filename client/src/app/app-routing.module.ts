@@ -12,6 +12,7 @@ import { ServerErrorComponent } from './errors/server-error/server-error.compone
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { AdminGuard } from './_guards/admin.guard';
 import { RegisterComponent } from './register/register.component';
+import { SubjectComponent } from './subject/subject/subject.component';
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -24,6 +25,7 @@ const routes: Routes = [
       {path: 'members/:id', component: MemberDetailComponent},
       {path: 'lists', component: ListsComponent},
       {path: 'messages', component: MessagesComponent},
+      {path: 'subjects', component: SubjectComponent},
       {path: 'admin', component: AdminPanelComponent, canActivate: [AdminGuard]},
       {path: 'register', component: RegisterComponent, canActivate: [AdminGuard]},
     ]

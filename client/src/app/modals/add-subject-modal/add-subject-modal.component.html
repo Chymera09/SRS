@@ -1,0 +1,18 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Add subject</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]='subjectForm' (ngSubmit)="subjectForm?.valid && addSubject()">
+        <app-text-input [formControl]='subjectForm.controls["code"]'
+        [label]='"Code"'></app-text-input>
+    <app-text-input [formControl]='subjectForm.controls["name"]'
+        [label]='"Name"'></app-text-input>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Cancel</button>
+    <button type="button" class="btn btn-success" (click)="addSubject()">Submit</button>
+</div>

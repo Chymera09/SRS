@@ -11,6 +11,5 @@ namespace API.Entities
         public string Name { get; set; }
         public string Code { get; set; }
         public AppUser AppUser { get; set; }
-        public ICollection<Course> Courses { get; set; }
     }
 }

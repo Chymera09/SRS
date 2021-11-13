@@ -28,6 +28,9 @@ import { RolesModalComponent } from './modals/roles-modal/roles-modal.component'
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { DateInputComponent } from './_forms/date-input/date-input.component';
 import { TextInputComponent } from './_forms/text-input/text-input.component';
+import { SubjectComponent } from './subject/subject/subject.component';
+import { EditSubjectModalComponent } from './modals/edit-subject-modal/edit-subject-modal.component';
+import { AddSubjectModalComponent } from './modals/add-subject-modal/add-subject-modal.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +51,10 @@ import { TextInputComponent } from './_forms/text-input/text-input.component';
     PhotoManagementComponent,
     RolesModalComponent,
     DateInputComponent,
-    TextInputComponent
+    TextInputComponent,
+    SubjectComponent,
+    EditSubjectModalComponent,
+    AddSubjectModalComponent
 
   ],
   imports: [

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.DTOs;
 using API.Entities;
 
 namespace API.Interfaces
@@ -11,5 +12,6 @@ namespace API.Interfaces
         Task<IEnumerable<Subject>> GetSubjectsAsync();
         Task<bool> SubjectExists(string code);
         void Add(Subject subject);
+        void Update(Subject subject);
     }
 }

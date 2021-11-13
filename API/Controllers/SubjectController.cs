@@ -25,27 +25,23 @@ namespace API.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<SubjectDto>>> GetSubjects()
+        [HttpGet("subjects")]
+        public async Task<ActionResult<IEnumerable<Subject>>> GetSubjects()
         {
             var subjects = await _subjectRepository.GetSubjectsAsync();
 
             return Ok(subjects);
         }
 
-
-
-
-
         [HttpPost("add")]
-        public async Task<ActionResult> AddSubject(SubjectDto subjectDto, string username)
+        public async Task<ActionResult> AddSubject(SubjectDto subjectDto)
         {
             if(await _subjectRepository.SubjectExists(subjectDto.Code))
             {
                 return BadRequest("Subject already exists");
             }
 
-            var user = await _userRepository.GetUserByUsernameAsync(username);
+            var user = await _userRepository.GetUserByUsernameAsync(subjectDto.Username);
             if(user == null)
             {
                 return BadRequest("User cannot find");
@@ -66,6 +62,28 @@ namespace API.Controllers
                 return BadRequest("Something wen wrongggg");
             }
             return Ok();
+        }
+
+
+        [HttpPut]
+        public async Task<ActionResult> UpdateSubject(SubjectDto subjectDto)
+        {
+
+            var user = await _userRepository.GetUserByUsernameAsync(subjectDto.Username);
+
+            var subject = new Subject
+            {
+                Id = subjectDto.Id,
+                Code = subjectDto.Code,
+                Name = subjectDto.Name,
+                AppUser = user
+            };             
+
+            _subjectRepository.Update(subject);
+
+            if (await _context.SaveChangesAsync() > 0) return NoContent();
+
+            return BadRequest("Failed to update subject");
         }
 
     }

@@ -1,0 +1,16 @@
+<button (click)="openAddSubjectModal()" class="btn btn-info mb-5" style="background-color: #9c27b0;">Add Subject</button>
+
+<div class="row">
+    <table class="table">
+        <tr>
+            <th style="width: 30%;">Subject code</th>
+            <th style="width: 40%;">Subject name</th>
+            <th style="width: 30%;"></th>
+        </tr>
+        <tr *ngFor="let subject of subjects">
+            <td>{{subject?.code}}</td>
+            <td>{{subject?.name}}</td>
+            <td><button (click)="openEditSubjectModal(subject)" class="btn btn-info" style="background-color: #9c27b0;">Edit Subject</button></td>
+        </tr>
+    </table>
+</div>

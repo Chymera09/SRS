@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.DTOs;
 using API.Entities;
 using API.Interfaces;
 using AutoMapper;
@@ -20,7 +21,10 @@ namespace API.Data
         }
         public async Task<IEnumerable<Subject>> GetSubjectsAsync()
         {
-            return await _context.Subjects                
+            return await _context.Subjects
+                //TODO megcsinalni ezt a szart
+                // .Include(x => x.AppUser)
+                // .ProjectTo<SubjectDto>(_mapper.ConfigurationProvider)
                 .ToListAsync();
         }
 
@@ -32,6 +36,11 @@ namespace API.Data
         public void Add(Subject subject)
         {
             _context.Subjects.AddAsync(subject);
+        }
+
+        public void Update(Subject subject)
+        {
+            _context.Entry(subject).State = EntityState.Modified;
         }
     }
 }
