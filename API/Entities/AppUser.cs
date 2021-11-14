@@ -10,6 +10,6 @@ namespace API.Entities
         public string LastName { get; set; }
         public ICollection<AppUserRole> UserRoles { get; set; }
         public ICollection<Subject> Subjects { get; set; }
-
+        public ICollection<Course> Courses { get; set; }
     }
 }

@@ -13,5 +13,6 @@ namespace API.Interfaces
         Task<bool> SubjectExists(string code);
         void Add(Subject subject);
         void Update(Subject subject);
+        Task<Subject> GetSubjectAsync(string code);
     }
 }

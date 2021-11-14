@@ -13,6 +13,7 @@ namespace API.Helpers
             CreateMap<AppUser, MemberDto>();                             
             CreateMap<RegisterDto, AppUser>();
             CreateMap<SubjectDto, Subject>();
+            CreateMap<CourseDto, Course>();
         }
     }
 }

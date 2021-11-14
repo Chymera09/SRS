@@ -42,5 +42,12 @@ namespace API.Data
         {
             _context.Entry(subject).State = EntityState.Modified;
         }
+
+        public async Task<Subject> GetSubjectAsync(string code)
+        {
+            return await _context.Subjects
+                .Where(x => x.Code == code)               
+                .SingleOrDefaultAsync();
+        }
     }
 }
