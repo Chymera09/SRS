@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
 using API.DTOs;
@@ -6,6 +7,7 @@ using API.Entities;
 using API.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
@@ -28,8 +30,32 @@ namespace API.Controllers
         [HttpGet("courses")]
         public async Task<ActionResult<IEnumerable<Course>>> GetCourses()
         {
-            var courses = await _courseRepository.GetCoursessAsync();
+            var courses = await _courseRepository.GetCoursesAsync();
 
+            return Ok(courses);
+        }
+
+        [HttpGet("courseswithsub")]
+        public async Task<ActionResult> GetCoursesWithSub()
+        {        var courses = await _context.Courses
+                .Include(s => s.Subject)
+                .Select(x => new
+                {
+                    x.Type,
+                    x.StartTime,
+                    x.EndTime,
+                    x.Limit,
+                    x.Subject.Code
+                })
+                .ToListAsync();
+
+            return Ok(courses);
+        }
+
+        [HttpGet("{subjectcode}")]
+        public async Task<ActionResult<IEnumerable<Course>>> GetCourse(string subjectcode)
+        {           
+            var courses =  await _courseRepository.GetCourseAsync(subjectcode);
             return Ok(courses);
         }
 

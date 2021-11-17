@@ -1,0 +1,22 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Add subject</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]='courseForm' (ngSubmit)="courseForm?.valid && addCourse()">
+        <app-text-input [formControl]='courseForm.controls["type"]'
+        [label]='"Type"'></app-text-input>
+    <app-text-input [formControl]='courseForm.controls["startTime"]'
+        [label]='"Start Time"'></app-text-input>
+    <app-text-input [formControl]='courseForm.controls["endTime"]'
+        [label]='"End Time"'></app-text-input>
+    <app-text-input [formControl]='courseForm.controls["limit"]'
+        [label]='"Limit"'></app-text-input>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Cancel</button>
+    <button type="button" class="btn btn-success" (click)="addCourse()">Submit</button>
+</div>

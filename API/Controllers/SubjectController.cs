@@ -68,6 +68,10 @@ namespace API.Controllers
         [HttpPut]
         public async Task<ActionResult> UpdateSubject(SubjectDto subjectDto)
         {
+            if(await _subjectRepository.SubjectExists(subjectDto.Code))
+            {
+                return BadRequest("Subject already exists");
+            }
 
             var user = await _userRepository.GetUserByUsernameAsync(subjectDto.Username);
 

@@ -1,0 +1,23 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Course</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+        <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <table class="table">
+        <tr>
+            <th style="width: 25%;">Course type</th>
+            <th style="width: 25%;">Start Time</th>
+            <th style="width: 25%;">End time</th>
+            <th style="width: 10%;">Limit</th>
+        </tr>
+        <tr *ngFor="let course of courses">
+            <td>{{course?.type}}</td>
+            <td>{{course?.startTime}}</td>
+            <td>{{course?.endTime}}</td>
+            <td>{{course?.limit}}</td>
+        </tr>       
+    </table>
+</div>
+

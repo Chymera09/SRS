@@ -4,13 +4,17 @@
     <table class="table">
         <tr>
             <th style="width: 30%;">Subject code</th>
-            <th style="width: 40%;">Subject name</th>
-            <th style="width: 30%;"></th>
+            <th style="width: 30%;">Subject name</th>
+            <th style="width: 10%;"></th>
+            <th style="width: 10%;"></th>
+            <th style="width: 10%;"></th>
         </tr>
         <tr *ngFor="let subject of subjects">
             <td>{{subject?.code}}</td>
-            <td>{{subject?.name}}</td>
+            <td>{{subject?.name}}</td>           
             <td><button (click)="openEditSubjectModal(subject)" class="btn btn-info" style="background-color: #9c27b0;">Edit Subject</button></td>
-        </tr>
+            <td><button (click)="openAddCourseModal(subject)" class="btn btn-info" style="background-color: #9c27b0;">Add course</button></td>
+            <td><button (click)="GetCourses(subject); openShowCourseModal(subject)" class="btn btn-info" style="background-color: #9c27b0;">Show courses</button></td>            
+        </tr>       
     </table>
 </div>

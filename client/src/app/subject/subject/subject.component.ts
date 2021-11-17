@@ -1,8 +1,13 @@
+import { partitionArray } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { AddCourseModalComponent } from 'src/app/modals/add-course-modal/add-course-modal.component';
 import { AddSubjectModalComponent } from 'src/app/modals/add-subject-modal/add-subject-modal.component';
 import { EditSubjectModalComponent } from 'src/app/modals/edit-subject-modal/edit-subject-modal.component';
+import { ShowCoursesModalComponent } from 'src/app/modals/show-courses-modal/show-courses-modal.component';
+import { Course } from 'src/app/_models/course';
 import { Subject } from 'src/app/_models/subjects';
+import { CourseService } from 'src/app/_services/course.service';
 import { SubjectService } from 'src/app/_services/subject.service';
 
 @Component({
@@ -12,17 +17,28 @@ import { SubjectService } from 'src/app/_services/subject.service';
 })
 export class SubjectComponent implements OnInit {
   subjects?: Partial<Subject>[];
+  courses?: Partial<Course>[]
   bsModalref?: BsModalRef;
+  isCollapsed = false;
 
-  constructor(private subjectService: SubjectService, private modalService: BsModalService) { }
+  constructor(private subjectService: SubjectService,
+              private courseService: CourseService,
+              private modalService: BsModalService) { }
 
   ngOnInit(): void {
     this.getSubject();
+    this.GetCourses();
   }
 
   getSubject() {
     this.subjectService.getSubjects().subscribe(subjects => {
       this.subjects = subjects;
+    })
+  }
+
+  GetCourses() : void {
+    this.courseService.getCourses().subscribe(courses => {
+      this.courses = courses;
     })
   }
 
@@ -67,8 +83,53 @@ export class SubjectComponent implements OnInit {
     });
   }
 
+  openAddCourseModal(subject: any)
+  {
+    let course: Course = {id: 0, type: 'a', startTime: 'b', endTime: 'c', limit: 0, username: 'd', code: subject.code};
+    const config = {
+      class: 'modal-dialog-centered',
+      initialState: {
+        course
+      }
+    }
+    this.bsModalref = this.modalService.show(AddCourseModalComponent, config);
+    this.bsModalref.content.addNewCourse.subscribe((values: any[]) => {
+      // TODO delete
+      // console.log("code:       " + subject.name);
+      this.courseService.addCourse(course).subscribe()
+    });
+  }
 
 
+  openShowCourseModal(subject: any)
+  {
+    var courses : Partial<Course>[] = [];
+
+    if(this.courses == undefined) {
+      return;
+    }
+
+    for(let course of this.courses!)
+    {
+      if(course.code == subject.code) {
+        courses.push(course);
+      }
+    }
+    var subjectcode = subject.code;
+
+    const config = {
+      class: 'modal-dialog-centered',
+      initialState: {
+        courses        
+      }
+    }
+    this.bsModalref = this.modalService.show(ShowCoursesModalComponent, config);
+    /*this.bsModalref.content.addNewCourse.subscribe((values: any[]) => {
+      // TODO delete
+      // console.log("code:       " + subject.name);
+      // this.courseService.addCourse(course).subscribe()
+    });*/
+  }
 
 
 

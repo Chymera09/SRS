@@ -31,6 +31,11 @@ import { TextInputComponent } from './_forms/text-input/text-input.component';
 import { SubjectComponent } from './subject/subject/subject.component';
 import { EditSubjectModalComponent } from './modals/edit-subject-modal/edit-subject-modal.component';
 import { AddSubjectModalComponent } from './modals/add-subject-modal/add-subject-modal.component';
+import { AddCourseModalComponent } from './modals/add-course-modal/add-course-modal.component';
+import { CollapseModule } from 'ngx-bootstrap/collapse';
+import { ShowCoursesModalComponent } from './modals/show-courses-modal/show-courses-modal.component';
+import { CourseComponent } from './course/course.component';
+
 
 @NgModule({
   declarations: [
@@ -54,7 +59,10 @@ import { AddSubjectModalComponent } from './modals/add-subject-modal/add-subject
     TextInputComponent,
     SubjectComponent,
     EditSubjectModalComponent,
-    AddSubjectModalComponent
+    AddSubjectModalComponent,
+    AddCourseModalComponent,
+    ShowCoursesModalComponent,
+    CourseComponent
 
   ],
   imports: [
@@ -65,7 +73,8 @@ import { AddSubjectModalComponent } from './modals/add-subject-modal/add-subject
     FormsModule,
     SharedModule,
     TabsModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CollapseModule.forRoot()
 
   ],
   providers: [
