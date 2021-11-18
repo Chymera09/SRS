@@ -1,6 +1,7 @@
 import { partitionArray } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { ToastrService } from 'ngx-toastr';
 import { AddCourseModalComponent } from 'src/app/modals/add-course-modal/add-course-modal.component';
 import { AddSubjectModalComponent } from 'src/app/modals/add-subject-modal/add-subject-modal.component';
 import { EditSubjectModalComponent } from 'src/app/modals/edit-subject-modal/edit-subject-modal.component';
@@ -17,13 +18,14 @@ import { SubjectService } from 'src/app/_services/subject.service';
 })
 export class SubjectComponent implements OnInit {
   subjects?: Partial<Subject>[];
-  courses?: Partial<Course>[]
+  courses?: Partial<Course>[];
   bsModalref?: BsModalRef;
-  isCollapsed = false;
+  validationErrors: string[] = [];
 
   constructor(private subjectService: SubjectService,
               private courseService: CourseService,
-              private modalService: BsModalService) { }
+              private modalService: BsModalService,
+              private toastr: ToastrService) { }
 
   ngOnInit(): void {
     this.getSubject();
@@ -51,7 +53,12 @@ export class SubjectComponent implements OnInit {
     }
     this.bsModalref = this.modalService.show(EditSubjectModalComponent, config);
     this.bsModalref.content.updateSelectedSubject.subscribe((values: any[]) => {
-      this.subjectService.updateSubject(subject).subscribe()
+      this.subjectService.updateSubject(subject).subscribe(response => {
+        this.toastr.success('Subject updated');
+      }, error => {
+        this.validationErrors = error;
+        this.toastr.error(this.validationErrors[0]);
+      })
     });
     /*this.bsModalref.content.updateSelectedRoles.subscribe((values: any[]) => {
       
@@ -69,7 +76,7 @@ export class SubjectComponent implements OnInit {
 
   openAddSubjectModal()
   {
-    let subject: Subject = {id: 0, name: 'a', code: 'b', username: 'c'};
+    let subject: Subject = {id: 0, name: 'a', code: 'b', userName: 'c'};
     const config = {
       class: 'modal-dialog-centered',
       initialState: {
@@ -78,8 +85,12 @@ export class SubjectComponent implements OnInit {
     }
     this.bsModalref = this.modalService.show(AddSubjectModalComponent, config);
     this.bsModalref.content.addNewSubject.subscribe((values: any[]) => {
-      console.log("code:       " + subject.name);
-      this.subjectService.addSubject(subject).subscribe()
+      this.subjectService.addSubject(subject).subscribe(response => {
+        this.toastr.success('New subject added');
+      }, error => {
+        this.validationErrors = error;
+        this.toastr.error(this.validationErrors[0]);
+      });
     });
   }
 
@@ -94,12 +105,14 @@ export class SubjectComponent implements OnInit {
     }
     this.bsModalref = this.modalService.show(AddCourseModalComponent, config);
     this.bsModalref.content.addNewCourse.subscribe((values: any[]) => {
-      // TODO delete
-      // console.log("code:       " + subject.name);
-      this.courseService.addCourse(course).subscribe()
+      this.courseService.addCourse(course).subscribe(response => {
+        this.toastr.success('New course added');
+      }, error => {
+        this.validationErrors = error;
+        this.toastr.error(this.validationErrors[0]);
+      })
     });
   }
-
 
   openShowCourseModal(subject: any)
   {

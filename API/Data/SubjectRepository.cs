@@ -6,6 +6,7 @@ using API.DTOs;
 using API.Entities;
 using API.Interfaces;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data
@@ -19,12 +20,17 @@ namespace API.Data
             _mapper = mapper;
             _context = context;
         }
-        public async Task<IEnumerable<Subject>> GetSubjectsAsync()
+        public async Task<IEnumerable<SubjectDto>> GetSubjectsAsync()
         {
-            return await _context.Subjects
-                //TODO megcsinalni ezt a szart
-                // .Include(x => x.AppUser)
-                // .ProjectTo<SubjectDto>(_mapper.ConfigurationProvider)
+                return await _context.Subjects
+                .Include(u => u.AppUser)
+                .Select(x => new SubjectDto
+                {
+                    Id = x.Id,
+                    Code = x.Code,
+                    Name = x.Name,
+                    UserName = x.AppUser.UserName
+                })
                 .ToListAsync();
         }
 
@@ -47,7 +53,7 @@ namespace API.Data
         {
             return await _context.Subjects
                 .Where(x => x.Code == code)               
-                .SingleOrDefaultAsync();
+                .FirstOrDefaultAsync();
         }
     }
 }

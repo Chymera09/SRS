@@ -27,8 +27,6 @@ namespace API.Services
         {
             var claims = new List<Claim>
             {
-                // TODO add unique name
-                // new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.NameId, user.UserName)
             };
 

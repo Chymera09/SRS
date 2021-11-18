@@ -9,7 +9,7 @@ namespace API.Interfaces
 {
     public interface ISubjectRepository
     {
-        Task<IEnumerable<Subject>> GetSubjectsAsync();
+        Task<IEnumerable<SubjectDto>> GetSubjectsAsync();
         Task<bool> SubjectExists(string code);
         void Add(Subject subject);
         void Update(Subject subject);

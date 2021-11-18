@@ -17,10 +17,6 @@ namespace API.Data
          public DbSet<Subject> Subjects { get; set; }
          public DbSet<Course> Courses { get; set; }
 
-        // TODO remove
-        // public DbSet<AppUser> Users { get; set; }
-
-        //TODO OnModelCreating letrehozasa es hasznalata
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

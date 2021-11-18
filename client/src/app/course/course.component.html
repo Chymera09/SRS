@@ -1,0 +1,21 @@
+<div class="row">
+    <table class="table">
+        <tr>
+            <th style="width: 17%;">Subject code</th>
+            <th style="width: 17%;">Type</th>
+            <th style="width: 17%;">Lecturer</th>
+            <th style="width: 13%;">Start time</th>
+            <th style="width: 13%;">End time</th>
+            <th style="width: 13%;">Limit</th>
+        </tr>
+        <tr *ngFor="let course of courses">
+            <td>{{course?.code}}</td>
+            <td>{{course?.type}}</td>
+            <td>{{course?.username}}</td> 
+            <td>{{course?.startTime}}</td> 
+            <td>{{course?.endTime}}</td> 
+            <td>{{course?.limit}}</td> 
+            <td><button (click)="openEditCourseModal(course)" class="btn btn-info" *appHasRole='["Admin", "Lecturer"]' style="background-color: #9c27b0;">Edit Course</button></td>         
+        </tr>       
+    </table>
+</div>

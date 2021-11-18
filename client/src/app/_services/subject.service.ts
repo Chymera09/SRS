@@ -24,7 +24,7 @@ export class SubjectService {
   addSubject(subject: Subject) {
     const user: User = JSON.parse(localStorage.getItem('user')!);
 
-    subject.username = user.username;
+    subject.userName = user.username;
     return this.http.post<Subject>(this.baseUrl + 'subject/add', subject);
   }
 }

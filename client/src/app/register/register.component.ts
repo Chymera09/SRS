@@ -10,8 +10,6 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Vali
 })
 export class RegisterComponent implements OnInit {
   @Output() cancelRegister = new EventEmitter();
-  //TODO delete mmodel
-  model: any = {};
   registerForm!: FormGroup;
   maxDate!: Date;
   validationErrors: string[] = [];

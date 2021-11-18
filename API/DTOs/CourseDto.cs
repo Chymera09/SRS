@@ -10,6 +10,6 @@ namespace API.DTOs
         public string EndTime { get; set; }
         public int Limit { get; set; }
         public string Username { get; set; }
-        public string SubjectCode { get; set; }
+        public string Code { get; set; }
     }
 }

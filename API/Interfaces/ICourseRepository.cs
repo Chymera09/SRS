@@ -7,8 +7,9 @@ namespace API.Interfaces
 {
     public interface ICourseRepository
     {
-         Task<IEnumerable<Course>> GetCoursesAsync();
+         Task<IEnumerable<CourseDto>> GetCoursesAsync();
          void Add(Course course);
          Task<IEnumerable<Course>> GetCourseAsync(string subjectcode);
+         void Update(Course course);
     }
 }

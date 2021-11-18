@@ -10,16 +10,17 @@
                 <li class="nav-item">
                     <a class="nav-link" routerLink='/subjects' routerLinkActive='active'>Subjects</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" routerLink='/messages'routerLinkActive='active' >Messages</a>
+                <li class="nav-item" *appHasRole='["Admin", "Lecturer"]'>
+                    <a class="nav-link" routerLink='/courses'routerLinkActive='active' >Courses</a>
                 </li>
                 <li *appHasRole='["Admin", "Lecturer"]' class="nav-item">
                     <a class="nav-link" routerLink='/admin'routerLinkActive='active' >Admin</a>
                 </li>
+                <li class="nav-item" *appHasRole='["Admin", "Lecturer"]'>
+                    <a class="nav-link" routerLink='/errors'routerLinkActive='active' >Errors</a>
+                </li>
             </ng-container>
-            <li class="nav-item">
-                <a class="nav-link" routerLink='/errors'routerLinkActive='active' >Errors</a>
-            </li>
+            
         </ul>
 
         <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as user" dropdown>

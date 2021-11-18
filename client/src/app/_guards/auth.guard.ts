@@ -11,7 +11,6 @@ import { map } from 'rxjs/operators';
 export class AuthGuard implements CanActivate {
   constructor(private accountService: AccountService, private toastr: ToastrService) {}
 
-  //TODO else ag nem volt
   canActivate(): Observable<boolean> {
     return this.accountService.currentUser$.pipe(
       map(user => {

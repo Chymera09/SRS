@@ -25,11 +25,21 @@ namespace API.Data
             await _context.Courses.AddAsync(course);
         }
 
-        public async Task<IEnumerable<Course>> GetCoursesAsync()
+        public async Task<IEnumerable<CourseDto>> GetCoursesAsync()
         {
-             return await _context.Courses
-                // .Include(x => x.Subject)
-                .ToListAsync();           
+            return await _context.Courses
+                .Include(s => s.Subject)
+                .Select(x => new CourseDto
+                {
+                    Id = x.Id,
+                    Type = x.Type,
+                    StartTime = x.StartTime,
+                    EndTime = x.EndTime,
+                    Limit = x.Limit,
+                    Code = x.Subject.Code,
+                    Username = x.Lecturer.UserName
+                })
+                .ToListAsync();        
         }
 
         public async Task<IEnumerable<Course>> GetCourseAsync(string subjectcode)
@@ -38,6 +48,11 @@ namespace API.Data
                 // .Include(x => x.Subject)
                 .Where(x => x.Subject.Code == subjectcode)
                 .ToListAsync();
+        }
+
+        public void Update(Course course)
+        {
+            _context.Entry(course).State = EntityState.Modified;
         }
     }
 }

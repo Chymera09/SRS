@@ -25,8 +25,7 @@ export class AddCourseModalComponent implements OnInit {
   //TODO form nem mukodik
   intitializeForm() {
     this.courseForm = this.fb.group({
-      type: ['', [Validators.required,
-        Validators.minLength(6), Validators.maxLength(6)]],
+      type: ['', Validators.required],
       startTime: ['', Validators.required], 
       endTime: ['', Validators.required],
       limit: ['', [Validators.required, Validators.min(1), Validators.max(30)]],

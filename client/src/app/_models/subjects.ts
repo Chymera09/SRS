@@ -2,5 +2,5 @@ export interface Subject {
     id: number;   
     name: string;
     code: string;
-    username:string;
+    userName:string;
 }

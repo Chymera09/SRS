@@ -10,10 +10,6 @@ import { NavComponent } from './nav/nav.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
-import { MemberListComponent } from './members/member-list/member-list.component';
-import { MemberDetailComponent } from './members/member-detail/member-detail.component';
-import { ListsComponent } from './lists/lists.component';
-import { MessagesComponent } from './messages/messages.component';
 import { SharedModule } from './_modules/shared.module';
 import { TestErrorsComponent } from './errors/test-errors/test-errors.component';
 import { ErrorInterceptor } from './_interceptors/error.interceptor';
@@ -22,7 +18,6 @@ import { ServerErrorComponent } from './errors/server-error/server-error.compone
 import { AdminPanelComponent } from './admin/admin-panel/admin-panel.component';
 import { HasRoleDirective } from './_directives/has-role.directive';
 import { UserManagementComponent } from './admin/user-management/user-management.component';
-import { PhotoManagementComponent } from './admin/photo-management/photo-management.component';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { RolesModalComponent } from './modals/roles-modal/roles-modal.component';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
@@ -35,6 +30,7 @@ import { AddCourseModalComponent } from './modals/add-course-modal/add-course-mo
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { ShowCoursesModalComponent } from './modals/show-courses-modal/show-courses-modal.component';
 import { CourseComponent } from './course/course.component';
+import { EditCourseModalComponent } from './modals/edit-course-modal/edit-course-modal.component';
 
 
 @NgModule({
@@ -43,17 +39,12 @@ import { CourseComponent } from './course/course.component';
     NavComponent,
     HomeComponent,
     RegisterComponent,
-    MemberListComponent,
-    MemberDetailComponent,
-    ListsComponent,
-    MessagesComponent,
     TestErrorsComponent,
     NotFoundComponent,
     ServerErrorComponent,
     AdminPanelComponent,
     HasRoleDirective,
     UserManagementComponent,
-    PhotoManagementComponent,
     RolesModalComponent,
     DateInputComponent,
     TextInputComponent,
@@ -62,7 +53,8 @@ import { CourseComponent } from './course/course.component';
     AddSubjectModalComponent,
     AddCourseModalComponent,
     ShowCoursesModalComponent,
-    CourseComponent
+    CourseComponent,
+    EditCourseModalComponent
 
   ],
   imports: [

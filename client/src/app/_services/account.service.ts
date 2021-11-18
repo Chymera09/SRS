@@ -54,7 +54,6 @@ export class AccountService {
   }
 
   getDecodedToken(token: any) {
-    console.log("asddsad    " + atob(token.split('.')[1]));
     return JSON.parse(atob(token.split('.')[1]));
   }
 }

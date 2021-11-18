@@ -7,10 +7,14 @@ using API.DTOs;
 using API.Entities;
 using API.Interfaces;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
+    [Authorize]
     public class SubjectController : BaseApiController
     {
         private readonly ISubjectRepository _subjectRepository;
@@ -25,14 +29,22 @@ namespace API.Controllers
             _context = context;
         }
 
+
         [HttpGet("subjects")]
-        public async Task<ActionResult<IEnumerable<Subject>>> GetSubjects()
+        /*public async Task<ActionResult<IEnumerable<Subject>>> GetSubjects()
         {
             var subjects = await _subjectRepository.GetSubjectsAsync();
 
             return Ok(subjects);
+        }*/
+        public async Task<ActionResult<IEnumerable<SubjectDto>>> GetSubjects()
+        {
+            var subjects = await _subjectRepository.GetSubjectsAsync();    
+
+            return Ok(subjects);
         }
 
+        [Authorize(Policy = "ModerateRole")]
         [HttpPost("add")]
         public async Task<ActionResult> AddSubject(SubjectDto subjectDto)
         {
@@ -41,7 +53,7 @@ namespace API.Controllers
                 return BadRequest("Subject already exists");
             }
 
-            var user = await _userRepository.GetUserByUsernameAsync(subjectDto.Username);
+            var user = await _userRepository.GetUserByUsernameAsync(subjectDto.UserName);
             if(user == null)
             {
                 return BadRequest("User cannot find");
@@ -64,16 +76,20 @@ namespace API.Controllers
             return Ok();
         }
 
-
+        [Authorize(Policy = "ModerateRole")]
         [HttpPut]
         public async Task<ActionResult> UpdateSubject(SubjectDto subjectDto)
         {
-            if(await _subjectRepository.SubjectExists(subjectDto.Code))
+            /*if(await _subjectRepository.SubjectExists(subjectDto.Code))
             {
                 return BadRequest("Subject already exists");
-            }
+            }*/
 
-            var user = await _userRepository.GetUserByUsernameAsync(subjectDto.Username);
+            var user = await _userRepository.GetUserByUsernameAsync(subjectDto.UserName);
+            if(user == null)
+            {
+                return BadRequest("User not found!");
+            }
 
             var subject = new Subject
             {
@@ -85,9 +101,9 @@ namespace API.Controllers
 
             _subjectRepository.Update(subject);
 
-            if (await _context.SaveChangesAsync() > 0) return NoContent();
+            if (await _context.SaveChangesAsync() == 0) return NoContent();
 
-            return BadRequest("Failed to update subject");
+            return Ok();
         }
 
     }

@@ -6,11 +6,13 @@ using API.DTOs;
 using API.Entities;
 using API.Interfaces;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
+    [Authorize]
     public class CourseController : BaseApiController
     {
         private readonly ICourseRepository _courseRepository;
@@ -28,26 +30,9 @@ namespace API.Controllers
         }
 
         [HttpGet("courses")]
-        public async Task<ActionResult<IEnumerable<Course>>> GetCourses()
+        public async Task<ActionResult<IEnumerable<CourseDto>>> GetCourses()
         {
             var courses = await _courseRepository.GetCoursesAsync();
-
-            return Ok(courses);
-        }
-
-        [HttpGet("courseswithsub")]
-        public async Task<ActionResult> GetCoursesWithSub()
-        {        var courses = await _context.Courses
-                .Include(s => s.Subject)
-                .Select(x => new
-                {
-                    x.Type,
-                    x.StartTime,
-                    x.EndTime,
-                    x.Limit,
-                    x.Subject.Code
-                })
-                .ToListAsync();
 
             return Ok(courses);
         }
@@ -59,10 +44,11 @@ namespace API.Controllers
             return Ok(courses);
         }
 
+        [Authorize(Policy = "ModerateRole")]
         [HttpPost("add")]
         public async Task<ActionResult> AddCourse(CourseDto courseDto)
         {           
-            var subject = await _subjectRepository.GetSubjectAsync(courseDto.SubjectCode);
+            var subject = await _subjectRepository.GetSubjectAsync(courseDto.Code);
             if(subject == null)
             {
                 return BadRequest("Subject cannot find");
@@ -91,6 +77,40 @@ namespace API.Controllers
             {
                 return BadRequest("Something went wrong");
             }
+            return Ok();
+        }
+
+        [Authorize(Policy = "ModerateRole")]
+        [HttpPut]
+        public async Task<ActionResult> UpdateCourse(CourseDto courseDto)
+        {
+            var user = await _userRepository.GetUserByUsernameAsync(courseDto.Username);
+            if(user == null)
+            {
+                return BadRequest("User not found!");
+            }
+
+            var subject = await _subjectRepository.GetSubjectAsync(courseDto.Code);
+            if(subject == null)
+            {
+                return BadRequest("Subject not found!");
+            }
+
+            var course = new Course
+            {
+                Id = courseDto.Id,
+                Type = courseDto.Type,
+                StartTime = courseDto.StartTime,
+                EndTime = courseDto.EndTime,
+                Limit = courseDto.Limit,
+                Lecturer = user,
+                Subject = subject
+            };             
+
+            _courseRepository.Update(course);
+
+            if (await _context.SaveChangesAsync() == 0) return NoContent();
+
             return Ok();
         }
     }

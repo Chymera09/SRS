@@ -25,7 +25,10 @@ export class CourseService {
   }
 
   getCourses() {
-    console.log("fut")
-    return this.http.get<Partial<Course>[]>(this.baseUrl + 'course/courseswithsub');
+    return this.http.get<Partial<Course>[]>(this.baseUrl + 'course/courses');
+  }
+
+  updateCourse(course: Course) {
+    return this.http.put<Course>(this.baseUrl + 'course', course);
   }
 }

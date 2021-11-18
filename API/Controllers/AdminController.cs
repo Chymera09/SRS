@@ -60,13 +60,5 @@ namespace API.Controllers
 
             return Ok(await _userManager.GetRolesAsync(user));
         }
-
-        // TODO atirni
-        [Authorize(Policy = "ModeratePhotoRole")]
-        [HttpGet("photos-to-moderate")]
-        public ActionResult GetPhotosForModeration()
-        {
-            return Ok("Admins or lecturer can see this");
-        }
     }
 }

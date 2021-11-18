@@ -24,16 +24,20 @@ export class EditSubjectModalComponent implements OnInit {
     this.subjectForm = this.fb.group({
       code: ['', [Validators.required,
         Validators.minLength(6), Validators.maxLength(6)]],
-      name: ['', Validators.required],    
+      name: ['', Validators.required],
+      lecturer: ['', [Validators.required,
+        Validators.minLength(6), Validators.maxLength(6)]], 
     })
 
     this.subjectForm.controls['code'].setValue(this.subject.code);
     this.subjectForm.controls['name'].setValue(this.subject.name);
+    this.subjectForm.controls['lecturer'].setValue(this.subject.userName);
   }
 
   updateSubject() {
     this.subject.name = this.subjectForm.controls['name'].value;
     this.subject.code = this.subjectForm.controls['code'].value;
+    this.subject.userName = this.subjectForm.controls['lecturer'].value;
 
     this.updateSelectedSubject.emit(this.subject);
     this.bsModalRef.hide();

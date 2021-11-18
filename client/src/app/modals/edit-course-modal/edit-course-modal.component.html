@@ -1,0 +1,26 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">Edit Course</h4>
+    <button type="button" class="btn-close close pull-right" aria-label="Close" (click)="bsModalRef.hide()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]='courseForm' (ngSubmit)="courseForm?.valid && updateCourse()">
+        <app-text-input [formControl]='courseForm.controls["code"]'
+        [label]='"Code"'></app-text-input>
+    <app-text-input [formControl]='courseForm.controls["type"]'
+        [label]='"Type"'></app-text-input>
+    <app-text-input [formControl]='courseForm.controls["lecturer"]'
+        [label]='"Lecturer"'></app-text-input>
+    <app-text-input [formControl]='courseForm.controls["starttime"]'
+        [label]='"Start time"'></app-text-input>
+    <app-text-input [formControl]='courseForm.controls["endtime"]'
+        [label]='"End time"'></app-text-input>
+    <app-text-input [formControl]='courseForm.controls["limit"]' type="number"
+        [label]='"Limit"'></app-text-input>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Cancel</button>
+    <button type="button" class="btn btn-success" (click)="updateCourse()">Submit</button>
+</div>
