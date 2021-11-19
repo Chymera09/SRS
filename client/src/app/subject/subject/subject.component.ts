@@ -96,7 +96,8 @@ export class SubjectComponent implements OnInit {
 
   openAddCourseModal(subject: any)
   {
-    let course: Course = {id: 0, type: 'a', startTime: 'b', endTime: 'c', limit: 0, username: 'd', code: subject.code};
+    //TODO partial
+    let course: Course = {id: 0, type: 'a', startTime: 'b', endTime: 'c', limit: 0, username: 'd', code: subject.code, taken: false};
     const config = {
       class: 'modal-dialog-centered',
       initialState: {
@@ -137,11 +138,24 @@ export class SubjectComponent implements OnInit {
       }
     }
     this.bsModalref = this.modalService.show(ShowCoursesModalComponent, config);
-    /*this.bsModalref.content.addNewCourse.subscribe((values: any[]) => {
-      // TODO delete
-      // console.log("code:       " + subject.name);
-      // this.courseService.addCourse(course).subscribe()
-    });*/
+    this.bsModalref.content.ShowCourses.subscribe((course: any) => {
+      if(course.taken)
+      {
+        this.courseService.takeCourse(course.id).subscribe(response => {
+          this.toastr.success('Course Taken');
+        }, error => {
+          this.validationErrors = error;
+          this.toastr.error(this.validationErrors[0]);
+        })
+      } else {
+        this.courseService.dropCourse(course.id).subscribe(response => {
+          this.toastr.success('Course Dropped');
+        }, error => {
+          this.validationErrors = error;
+          this.toastr.error(this.validationErrors[0]);
+        })
+      }
+    });
   }
 
 

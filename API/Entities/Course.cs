@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace API.Entities
 {
     public class Course
@@ -9,5 +11,6 @@ namespace API.Entities
         public int Limit { get; set; }
         public AppUser Lecturer { get; set; }
         public Subject Subject { get; set; }
+        public ICollection<AppUserCourse> UserCourses { get; set; }
     }
 }

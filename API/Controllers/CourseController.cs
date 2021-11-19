@@ -29,20 +29,35 @@ namespace API.Controllers
             _context = context;
         }
 
-        [HttpGet("courses")]
-        public async Task<ActionResult<IEnumerable<CourseDto>>> GetCourses()
+        [HttpGet("courses/{username}")]
+        public async Task<ActionResult<IEnumerable<CourseDto>>> GetCourses(string username)
         {
+            //username = "bart22";
             var courses = await _courseRepository.GetCoursesAsync();
+
+            var userCourses = await _courseRepository.GetTakenCoursesAsync(username);
+
+            foreach(var userCourse in userCourses)
+            {
+                foreach(var course in courses)
+                {
+                    if(userCourse.CourseId == course.Id)
+                    {
+                        course.Taken = true;
+                        break;
+                    }
+                }
+            }
 
             return Ok(courses);
         }
 
-        [HttpGet("{subjectcode}")]
+        /*[HttpGet("{subjectcode}")]
         public async Task<ActionResult<IEnumerable<Course>>> GetCourse(string subjectcode)
         {           
             var courses =  await _courseRepository.GetCourseAsync(subjectcode);
             return Ok(courses);
-        }
+        }*/
 
         [Authorize(Policy = "ModerateRole")]
         [HttpPost("add")]
@@ -70,7 +85,7 @@ namespace API.Controllers
                 Lecturer = user
             };
 
-            _courseRepository.Add(course);
+            _courseRepository.AddAsync(course);
 
             var result = await _context.SaveChangesAsync();
             if(result == 0)
@@ -110,6 +125,72 @@ namespace API.Controllers
             _courseRepository.Update(course);
 
             if (await _context.SaveChangesAsync() == 0) return NoContent();
+
+            return Ok();
+        }
+
+        [HttpPost("takeCourse")]
+        public async Task<ActionResult> TakeCourse(AppUserCourseDto userCourseDto)
+        {           
+           var user = await _userRepository.GetUserByUsernameAsync(userCourseDto.UserName);
+            if(user == null)
+            {
+                return BadRequest("User not found!");
+            }
+
+            var course = await _courseRepository.GetCourseByIdAsync(userCourseDto.CourseId);
+            if(course == null)
+            {
+                return BadRequest("Course not found!");
+            }
+
+            if(await _courseRepository.GetCourseStudentCountAsync(course.Id, user.UserName) == course.Limit)
+            {
+                return BadRequest("There is no free space!");
+            }
+
+            var appUserCourse = new AppUserCourse{User = user, Course = course};
+
+            if(await _courseRepository.UserCourseExistsAsync(appUserCourse))
+            {
+                return BadRequest("Course already taken!");
+            }
+
+            _courseRepository.AddUserCourseAsync(appUserCourse);
+
+            var result = await _context.SaveChangesAsync();
+            if(result == 0)
+            {
+                return BadRequest("Something went wrong");
+            }
+            return Ok();
+
+        }
+
+        [HttpDelete()]
+        public async Task<ActionResult> DropCourse(AppUserCourseDto userCourseDto)
+        { 
+            var user = await _userRepository.GetUserByUsernameAsync(userCourseDto.UserName);
+            if(user == null)
+            {
+                return BadRequest("User not found!");
+            }
+
+            var course = await _courseRepository.GetCourseByIdAsync(userCourseDto.CourseId);
+            if(course == null)
+            {
+                return BadRequest("Course not found!");
+            }
+
+            var appUserCourse = _courseRepository.GetUserCourseAsync(new AppUserCourse{Course = course, User = user});
+
+            _courseRepository.RemoveUserCourseAsync(appUserCourse.Result);
+
+            var result = await _context.SaveChangesAsync();
+            if(result == 0)
+            {
+                return BadRequest("Something went wrong");
+            }
 
             return Ok();
         }

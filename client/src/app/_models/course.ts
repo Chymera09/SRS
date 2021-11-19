@@ -6,4 +6,5 @@ export interface Course {
     limit: number;
     username: string;
     code: string;
+    taken: boolean;
 }

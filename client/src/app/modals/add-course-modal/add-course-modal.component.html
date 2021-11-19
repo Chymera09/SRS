@@ -18,5 +18,5 @@
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-default" (click)="bsModalRef.hide()">Cancel</button>
-    <button type="button" class="btn btn-success" (click)="addCourse()">Submit</button>
+    <button type="button" [disabled]='!courseForm?.valid' class="btn btn-success" (click)="addCourse()">Submit</button>
 </div>

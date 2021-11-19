@@ -11,5 +11,6 @@ namespace API.DTOs
         public int Limit { get; set; }
         public string Username { get; set; }
         public string Code { get; set; }
+        public bool Taken { get; set; }
     }
 }

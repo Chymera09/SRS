@@ -12,6 +12,7 @@
             <th style="width: 20%;">End time</th>
             <th style="width: 20%;">Lecturer</th>
             <th style="width: 10%;">Limit</th>
+            <th style="width: 10%;"></th>
         </tr>
         <tr *ngFor="let course of courses">
             <td>{{course?.type}}</td>
@@ -19,6 +20,8 @@
             <td>{{course?.endTime}}</td>
             <td>{{course?.username}}</td>
             <td>{{course?.limit}}</td>
+            <td><button *ngIf="course?.taken" (click)="TakeOrDropCourse(course)" class="btn btn-info" style="background-color: #9c27b0;">Drop</button>
+                <button *ngIf="!course?.taken" (click)="TakeOrDropCourse(course)" class="btn btn-info" style="background-color: #9c27b0;">Take</button></td>
         </tr>       
     </table>
 </div>

@@ -16,6 +16,7 @@ namespace API.Data
 
          public DbSet<Subject> Subjects { get; set; }
          public DbSet<Course> Courses { get; set; }
+         public DbSet<AppUserCourse> AppUserCourse { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -31,8 +32,7 @@ namespace API.Data
                 .HasMany(ur => ur.UserRoles)
                 .WithOne(u => u.Role)
                 .HasForeignKey(ur => ur.RoleId)
-                .IsRequired();
-            
+                .IsRequired();        
         }
     }
 }

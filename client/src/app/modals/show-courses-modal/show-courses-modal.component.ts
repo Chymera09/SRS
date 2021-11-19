@@ -13,12 +13,23 @@ export class ShowCoursesModalComponent implements OnInit {
   @Input() ShowCourses = new EventEmitter();
   subjectcode?: string;
   courses?: Partial<Course>[];
+  taken: boolean = true;
 
   validationErrors: string[] = [];
 
   constructor(public bsModalRef: BsModalRef, private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    for(let asd of this.courses!)
+    {
+      console.log(asd.taken);
+    }
+  }
+
+  TakeOrDropCourse(course: any) {
+    course.taken = !course.taken;
+    this.ShowCourses.emit(course);
+    // this.bsModalRef.hide();
   }
 
 }
